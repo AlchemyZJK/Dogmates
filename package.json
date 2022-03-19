@@ -1,0 +1,22 @@
+{
+  "name": "dogmates",
+  "version": "1.0.0",
+  "description": "full stack project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlchemyZJK/Dogmates.git"
+  },
+  "keywords": [
+    "full-stack"
+  ],
+  "author": "ZhangJinkun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlchemyZJK/Dogmates/issues"
+  },
+  "homepage": "https://github.com/AlchemyZJK/Dogmates#readme"
+}
