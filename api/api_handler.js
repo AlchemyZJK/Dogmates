@@ -6,8 +6,8 @@ const test = require('./test.js');
 
 const resolvers = {
   Query: {
-    test: test.getMessage
-  }
+    test: test.getMessage,
+  },
 };
 
 const server = new ApolloServer({

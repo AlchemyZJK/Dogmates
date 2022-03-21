@@ -1,4 +1,4 @@
-let testMessage = 'API server Success.';
+const testMessage = 'API server Success.';
 
 function getMessage() {
   return testMessage;
