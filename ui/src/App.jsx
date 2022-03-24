@@ -1,35 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import graphQLFetch from './graphQLFetch';
+import Header from './components/Header.jsx';
+import Home from './Home.jsx';
+import Neighborhood from './Neighborhood.jsx';
+import PostingSpace from './PostingSpace.jsx';
 
-class Test extends React.Component {
-  constructor() {
-    super();
-    this.state = { text: '' };
-  }
-
-  componentDidMount() {
-    this.loadData();
-  }
-
-  async loadData() {
-    const query = `query {
-      test
-    }`;
-
-    const data = await graphQLFetch(query);
-    if (data) {
-      this.setState({ text: data.test });
-    }
-  }
-
+class App extends React.Component {
   render() {
-    const { text } = this.state;
-    return <h1>{text}</h1>;
+    return (
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/neighborhood" element={<Neighborhood />} />
+          <Route path="/posting-space" element={<PostingSpace />} />
+        </Routes>
+      </BrowserRouter>
+    );
   }
 }
 
-const element = <Test />;
+const element = <App />;
 
 ReactDOM.render(element, document.getElementById('contents'));
