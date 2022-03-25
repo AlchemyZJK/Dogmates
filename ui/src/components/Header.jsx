@@ -5,7 +5,6 @@ export default function Header() {
   const location = useLocation();
   const isNeighborhoodSelected = location.pathname === '/neighborhood';
   const isPostingSpaceSelected = location.pathname === '/posting-space';
-  console.log(location.pathname);
 
   return (
     <header className="header">
