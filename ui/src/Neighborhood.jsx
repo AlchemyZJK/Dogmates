@@ -13,7 +13,7 @@ function MapWrapper() {
   const apiKey = 'AIzaSyBd2oCXrZufX271XlIvsHbUVIRYeUtB59k';
   return (
     <Wrapper apiKey={apiKey}>
-      <div id="my-google-map" style={{ height: '500px' }} />
+      <div id="my-google-map" style={{ width: '640px', height: '640px' }} />
       <MyGoogleMap />
     </Wrapper>
   );
