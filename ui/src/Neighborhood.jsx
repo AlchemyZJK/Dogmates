@@ -1,25 +1,33 @@
 import React from 'react';
-import { Wrapper } from '@googlemaps/react-wrapper';
 
-export default function Neighborhood() {
-  return (
-    <div className="neighborhood-container">
-      <SearchContainer />
-      <MapContainer />
-    </div>
-  );
+import Map from './components/Map.jsx';
+
+export default class Neighborhood extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dogs: [
+        { id: 1, name: 'Momo', kind: 'Husky', imgUrl: './imgs/dog_imgs/husky.png', location: { lat: 1.29503, lng: 103.77366 } },
+        { id: 2, name: 'Lucky', kind: 'Border Collie', imgUrl: './imgs/dog_imgs/border-collie.png', location: { lat: 1.29094, lng: 103.77240 } },
+      ],
+    };
+  }
+
+  render() {
+    const { dogs } = this.state;
+    return (
+      <div className="neighborhood-container">
+        <SearchContainer dogs={dogs} />
+        <Map dogs={dogs} />
+      </div>
+    );
+  }
 }
 
 class SearchContainer extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {
-      dogs: [
-        { id: 1, name: 'Momo', kind: 'Husky', imgUrl: './imgs/dog_imgs/husky.png' },
-        { id: 2, name: 'Lucky', kind: 'Border Collie', imgUrl: './imgs/dog_imgs/border-collie.png' },
-      ],
-    };
   }
 
   handleSubmit(e) {
@@ -31,7 +39,7 @@ class SearchContainer extends React.Component {
   }
 
   render() {
-    const { dogs } = this.state;
+    const { dogs } = this.props;
     return (
       <div className="search-container">
         <form className="search-form" name="searchForm" onSubmit={this.handleSubmit}>
@@ -72,31 +80,4 @@ function SearchItem(props) {
       <button type="button" className="add">Add</button>
     </div>
   );
-}
-
-function MapContainer() {
-  const apiKey = 'AIzaSyBd2oCXrZufX271XlIvsHbUVIRYeUtB59k';
-  return (
-    <Wrapper apiKey={apiKey}>
-      <div id="my-google-map" style={{ width: '640px', height: '560px' }} />
-      <MyGoogleMap />
-    </Wrapper>
-  );
-}
-
-function MyGoogleMap() {
-  const ref = React.useRef(null);
-  const [map, setMap] = React.useState();
-
-  React.useEffect(() => {
-    if (ref.current && !map) {
-      setMap(new window.google.maps.Map(document.getElementById('my-google-map'), {
-        center: { lat: 1.29493, lng: 103.77369 },
-        zoom: 15,
-        mapId: '305dba96e036e479',
-      }));
-    }
-  }, [ref, map]);
-
-  return <div ref={ref} />;
 }
