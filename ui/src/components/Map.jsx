@@ -73,7 +73,6 @@ const Marker = (options) => {
 
   React.useEffect(() => {
     const { label, position, map } = options;
-    console.log(options);
     if (marker) {
       const infoWindow = new window.google.maps.InfoWindow({
         content: label,

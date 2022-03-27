@@ -14,6 +14,7 @@
   background-color: rgb(0, 191, 143);
   position: sticky;
   top: 0;
+  z-index: 3;
 }
 .header .logo {
   width: 20%;
@@ -186,4 +187,78 @@
 }
 #my-google-map {
   border-radius: 16px;
+}
+
+/* Posting Space Page */
+.posting-bar {
+  display: flex;
+  justify-content: center;
+}
+.posting-bar img {
+  margin: 24px;
+}
+.posting-container {
+  padding: 24px 10%;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-column-gap: 8px;
+  grid-row-gap: 12px;
+}
+.postcard-container {
+  height: 326px;
+  border: solid 2px rgb(0, 191, 143);
+  border-radius: 16px;
+  padding: 8px;
+  position: relative;
+}
+.postcard-container img {
+  display: block;
+  margin: 6px auto;
+  z-index: 0;
+}
+.postcard-container .card-title {
+  font-family: 'Pacifico', cursive;
+  font-size: 20px;
+}
+.postcard-container .card-content {
+  height: 96px;
+}
+.postcard-container .card-info-container {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgb(128, 128, 128);
+}
+.postcard-container button {
+  margin-top: 8px;
+  width: 100%;
+  appearance: none;
+  background-color: rgb(0, 191, 143);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  padding: 6px;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.postcard-container button:focus:not(:focus-visible):not(.focus-visible) {
+  box-shadow: none;
+  outline: none;
+}
+.postcard-container button:hover {
+  background-color: rgba(0, 191, 143, 0.6);
+}
+.postcard-container button:focus {
+  outline: none;
+}
+.postcard-container button:active {
+  background-color: rgba(0, 191, 143, 0.6);
 }
