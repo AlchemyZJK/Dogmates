@@ -311,5 +311,15 @@
   color: rgb(0, 191, 143);
   text-decoration: none;
 }
-
-
+.login-register-form select {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 15px;
+  margin: 0 0 15px;
+  font-size: 14px;
+  appearance: none;
+  background: #f2f2f2 url("imgs/arrow-down.png") no-repeat right 8px center;
+  background-size: 16px 16px;
+  outline: none;
+}
