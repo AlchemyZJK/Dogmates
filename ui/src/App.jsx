@@ -8,6 +8,9 @@ import Home from './Home.jsx';
 import Neighborhood from './Neighborhood.jsx';
 import PostingSpace from './PostingSpace.jsx';
 import DogalSpace from './DogalSpace.jsx';
+import MyPosting from './MyPosting.jsx';
+import NewPosting from './NewPosting.jsx';
+import Chatting from './Chatting.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
 
@@ -29,9 +32,12 @@ class App extends React.Component {
         <Header user={user} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/neighborhood" element={<Neighborhood />} />
-          <Route path="/posting-space" element={<PostingSpace />} />
-          <Route path="/dogal-space" element={<DogalSpace />} />
+          <Route path="/neighborhood" element={<Neighborhood user={user} />} />
+          <Route path="/posting-space" element={<PostingSpace user={user} />} />
+          <Route path="/dogal-space" element={<DogalSpace user={user} />} />
+          <Route path="/my-posting" element={<MyPosting user={user} />} />
+          <Route path="/new-posting" element={<NewPosting user={user} />} />
+          <Route path="/chatting" element={<Chatting user={user} />} />
           <Route path="/login" element={<Login getUser={this.getUser} />} />
           <Route path="/register" element={<Register getUser={this.getUser} />} />
         </Routes>
