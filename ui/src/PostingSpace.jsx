@@ -13,6 +13,9 @@ export default class PostingSpace extends React.Component {
         {
           id: 2, imgUrl: './imgs/posting_imgs/friends.png', time: '2022/02/22', poster: { name: 'Lucky' }, title: 'Make New Friends', content: 'I just make this posting to make some new friends. Would you like add me to your contact list?',
         },
+        {
+          id: 3, imgUrl: './imgs/posting_imgs/dog-walking.png', time: '2022/03/27', poster: { name: 'Momo' }, title: 'Let us Play!', content: 'Let us make an appointment and play at the Dogwood Park? Would you like join me?',
+        },
       ],
     };
   }
@@ -27,7 +30,7 @@ export default class PostingSpace extends React.Component {
           <img src="./imgs/party-copy.png" height="128" width="128" alt="party-img" />
         </div>
         <div className="posting-container">
-          {postings.map((post) => <PostCard key={post.id} post={post} />)}
+          {postings.map((post) => <PostCard key={post.id} post={post} buttonText="Contact Me" />)}
         </div>
       </>
     );

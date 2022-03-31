@@ -27,7 +27,7 @@ export default class Register extends React.Component {
       return <Navigate to="/" />;
     }
     const options = [
-      { id: 0, value: 'kind' },
+      { id: 0, value: 'breed' },
       { id: 1, value: 'Husky' },
       { id: 2, value: 'Border Collie' },
       { id: 3, value: 'Golden Retrievers' },
@@ -38,7 +38,7 @@ export default class Register extends React.Component {
         <form className="login-register-form" id="registerForm" onSubmit={this.handleSubmit}>
           <input id="email" type="email" placeholder="email" required />
           <input id="name" type="text" placeholder="username" required />
-          <select name="kind" id="kind" defaultValue={defaultOptions} required>
+          <select name="breed" id="breed" defaultValue={defaultOptions} required>
             {options.map((option) => (
               <option key={option.id} value={option.id} disabled={option.id === 0} hidden={option.id === 0}>
                 {option.value}
