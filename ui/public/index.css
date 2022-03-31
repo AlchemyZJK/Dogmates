@@ -332,7 +332,7 @@
 
 /* Sidebar CSS */
 .sidebar-container {
-  width: 186px;
+  width: 20%;
   height: 597px;
   background-color: rgb(0, 191, 143);
 }
@@ -340,7 +340,7 @@
   width: 100%;
   color: white;
   font-size: 24px;
-  margin: 12px 0 24px;
+  margin: 12px 0 24px 12px;
 }
 .sidebar-container ul {
   margin: 0;
@@ -369,6 +369,7 @@
 
 /* Dogal Info Page */
 .dogal-info-container {
+  width: 80%;
   padding: 16px;
 }
 .dogal-info-container .dogal-img {
@@ -389,9 +390,81 @@
 
 /* My Posting Page */
 .my-posting-container {
+  width: 80%;
   display: grid;
-  grid-template-columns: 360px 360px 360px;
+  grid-template-columns: 25% 25% 25% 25%;
   padding: 16px;
   grid-column-gap: 8px;
   grid-row-gap: 12px;
+}
+
+/* Publish Posting Page */
+.publish-container {
+  width: 25%;
+  padding: 16px;
+}
+.publish-container .publish-header {
+  font-size: 20px;
+  color: rgb(0, 191, 143);
+  margin-bottom: 16px;
+}
+.publish-container form {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 0;
+}
+.publish-container form label {
+  font-size: 16px;
+  color: rgb(0, 191, 143);
+  margin: 6px 0;
+}
+.publish-container form input {
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  border-radius: 16px;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.publish-container form select {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 15px;
+  margin: 0 0 15px;
+  font-size: 14px;
+  appearance: none;
+  background: #f2f2f2 url("imgs/arrow-down.png") no-repeat right 8px center;
+  background-size: 16px 16px;
+  outline: none;
+}
+.publish-container form textarea {
+  width: 480px;
+  border: none;
+  border-radius: 16px;
+  background: #f2f2f2;
+  padding: 15px;
+  margin: 0 0 15px;
+  font-size: 14px;
+  appearance: none;
+  outline: none;
+  resize: none;
+}
+.publish-container form button {
+  outline: 0;
+  background-color: rgb(0, 191, 143);
+  width: 100%;
+  border: 0;
+  border-radius: 16px;
+  padding: 12px;
+  color: white;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.publish-container form button:hover,.publish-container form button:active,.publish-container form button:focus {
+  background-color: rgba(0, 191, 143, 0.6);
 }
