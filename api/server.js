@@ -7,7 +7,7 @@ const app = express();
 
 installHandler(app);
 
-const port = process.env.API_SERVER_PORT || 3000;
+const port = process.env.API_SERVER_PORT || 3001;
 
 (async function start() {
   try {
@@ -19,3 +19,4 @@ const port = process.env.API_SERVER_PORT || 3000;
     console.log('ERROR:', err);
   }
 }());
+

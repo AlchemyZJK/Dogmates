@@ -1,3 +1,78 @@
+scalar GraphQLDate
+
+
+type User{
+  _id:ID!
+  pet_id: Int!
+  pet_name: String!
+  pet_breed: String!
+  pet_mail: String!
+  pet_password: String!
+  pet_postcode: Int!
+}
+
+type Status {
+  valid: Boolean!
+  message: String!
+}
+
+type Output{
+  data: User
+  status: Status!
+}
+
+type Message{
+  _id:Int!
+  message_id:Int!
+  contact_id:Int!
+  sender_id:Int!
+  receiver_id:Int!
+  content:String!
+  created_at: GraphQLDate!
+  updated_at: GraphQLDate!
+}
+
+type ContactList{
+  _id:Int!
+  chat_id:Int!
+  pet_name:String!
+  created_at: GraphQLDate!
+  updated_at: GraphQLDate!
+}
+
+type Posting{
+   _id:Int!
+  posting_id:Int!
+  kind:String!
+  content:String!
+  poster_id:Int!
+  created_at: GraphQLDate!
+}
+
+
+#Toned down pet informarion, used as inputs, without server generated value
+
+input PetLoginInputs {
+  pet_mail:String!
+  pet_password:String!
+}
+
+input PetRegisterInputs {
+  pet_name: String!
+  pet_breed: String!
+  pet_mail: String!
+  pet_password: String!
+  pet_postcode: Int!
+}
+
+#Top level declarations
+
 type Query {
   test: String!
+  petInf: [User!]
+}
+
+type Mutation {
+  petLogin(login: PetLoginInputs!): Output!
+  petRegister(register: PetRegisterInputs!): Output!
 }
