@@ -24,26 +24,24 @@ type Output{
 }
 
 type Message{
-  _id:Int!
+  _id:ID!
   message_id:Int!
   contact_id:Int!
   sender_id:Int!
   receiver_id:Int!
   content:String!
-  created_at: GraphQLDate!
   updated_at: GraphQLDate!
 }
 
 type ContactList{
-  _id:Int!
-  chat_id:Int!
-  pet_name:String!
-  created_at: GraphQLDate!
-  updated_at: GraphQLDate!
+  _id:ID!
+  contact_id:Int!
+  user_a:String!
+  user_b: String!
 }
 
 type Posting{
-   _id:Int!
+  _id:ID!
   posting_id:Int!
   kind:String!
   content:String!
@@ -67,14 +65,24 @@ input PetRegisterInputs {
   pet_postcode: String!
 }
 
+input PostingAddInputs {
+  title:String!
+  kind:String!
+  content:String!
+  poster_id:int!
+}
+
 #Top level declarations
 
 type Query {
   test: String!
   petInf: [User!]
+  postingInf: [Posting!]!
 }
 
 type Mutation {
   petLogin(login: PetLoginInputs!): Output!
   petRegister(register: PetRegisterInputs!): Output!
+  addPosting(posting: PostingAddInputs!): Boolean!
+  deletePosting(posting_id: Int!): Boolean!
 }

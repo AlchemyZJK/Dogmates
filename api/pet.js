@@ -1,10 +1,10 @@
 const {getDb, getNextSequence} = require('./db.js');
 const fetch = require('node-fetch');
+const { get } = require('http');
 
 async function getLatLngByZipcode(zipcode){
 	let latitude;
 	let longitude;
-<<<<<<< HEAD
 	let errors = [];
 	let geolocation = [];
 	const response = await fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + zipcode + "&key=AIzaSyBDVOCPE8oebdrOl2egU9kZt_bO48RDr-s");
@@ -15,20 +15,7 @@ async function getLatLngByZipcode(zipcode){
 		geolocation.push(latitude);
 		geolocation.push(longitude);
 		return geolocation
-=======
-	let errors=[];
-	return fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + zipcode + "&key=AIzaSyBDVOCPE8oebdrOl2egU9kZt_bO48RDr-s")
-		.then(response => response.json())
-		.then(data => {
-			if (data.status == "OK") {
-				const latitude = data.results[0].geometry.location.lat;
-				const longitude = data.results[0].geometry.location.lng;
-			}
-			else {
-				errors.push("This location does not exist!")
-			}
-		});
->>>>>>> 19d4c3fd62bbcebcb7d7faec200c98807c7402d8
+
 	}
 	else {
 		errors.push("This location does not exist!");
@@ -36,8 +23,6 @@ async function getLatLngByZipcode(zipcode){
 	}
 
 }
-
-
 
 async function login(_, { login }) {
 	const db = getDb();
@@ -112,4 +97,10 @@ async function register(_, { register }) {
 	return output;
 }
 
-module.exports ={login, register};
+async function Inf() {
+	const db = getDb();
+	const issues = await db.collection("pets").find({}).toArray();
+	return issues
+}
+
+module.exports ={login, register, Inf};
