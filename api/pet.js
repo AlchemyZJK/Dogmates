@@ -10,12 +10,12 @@ function getLatLngByZipcode(zipcode){
 		.then(data => {
 			if (data.status == "OK") {
 				const latitude = data.results[0].geometry.location.lat;
-      			const longitude = data.results[0].geometry.location.lng;
+				const longitude = data.results[0].geometry.location.lng;
 			}
 			else {
 				errors.push("This location does not exist!")
 			}
-		})
+		});
 	}
 
 
