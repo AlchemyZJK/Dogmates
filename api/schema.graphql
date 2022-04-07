@@ -8,7 +8,9 @@ type User{
   pet_breed: String!
   pet_mail: String!
   pet_password: String!
-  pet_postcode: Int!
+  pet_postcode: String!
+  latitude: Int!
+  longitude: Int!
 }
 
 type Status {
@@ -62,7 +64,7 @@ input PetRegisterInputs {
   pet_breed: String!
   pet_mail: String!
   pet_password: String!
-  pet_postcode: Int!
+  pet_postcode: String!
 }
 
 #Top level declarations
