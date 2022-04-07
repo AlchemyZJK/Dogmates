@@ -1,22 +1,27 @@
 const {getDb, getNextSequence} = require('./db.js');
 const fetch = require('node-fetch');
 
-function getLatLngByZipcode(zipcode){
+async function getLatLngByZipcode(zipcode){
 	let latitude;
 	let longitude;
-	let errors=[];
-	return fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + zipcode + "&key=AIzaSyBDVOCPE8oebdrOl2egU9kZt_bO48RDr-s")
-		.then(response => response.json())
-		.then(data => {
-			if (data.status == "OK") {
-				const latitude = data.results[0].geometry.location.lat;
-      			const longitude = data.results[0].geometry.location.lng;
-			}
-			else {
-				errors.push("This location does not exist!")
-			}
-		})
+	let errors = [];
+	let geolocation = [];
+	const response = await fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + zipcode + "&key=AIzaSyBDVOCPE8oebdrOl2egU9kZt_bO48RDr-s");
+	const geocode = await response.json();
+	if (geocode.status == "OK") {
+		const latitude = geocode.results[0].geometry.location.lat;
+		const longitude = geocode.results[0].geometry.location.lng;
+		geolocation.push(latitude);
+		geolocation.push(longitude);
+		return geolocation
 	}
+	else {
+		errors.push("This location does not exist!");
+		return errors;
+	}
+
+}
+
 
 
 async function login(_, { login }) {
@@ -55,27 +60,28 @@ async function login(_, { login }) {
 }
 
 async function register(_, { register }) {
+	let Latitude = '';
 	const db = getDb();
 	const errors = [];
 	const Status = new Object();
 	const output = new Object();
 	const email = register.pet_mail;
 	const oldpet = await db.collection("pets").findOne({pet_mail: email});
-	const Latitude = getLatLngByZipcode(register.pet_postcode);
-	console.log(Latitude);
-	const Longitude = getLatLngByZipcode(register.pet_postcode)[1];
-	const errorsLocation = getLatLngByZipcode(register.pet_postcode)[2];
+	const geolocation = await getLatLngByZipcode(register.pet_postcode);
+	const LatitudeOrError = geolocation[0]
+	const Longitude = geolocation[1];
 	if (oldpet != null) {
 		errors.push("The user already exists")
 		Status.valid = false;
 		Status.message = errors[0];
 	}
 	else {
-		if (Latitude == undefined){
+		if (typeof(LatitudeOrError) == "string"){
 			Status.valid = false;
 			Status.message = "This location does not exist!";
-		}
+		} 
 		else {
+			Latitude = LatitudeOrError;
 			Status.valid = true;
 			Status.message = "Successfually!";
 			const newPet = Object.assign({}, register);
