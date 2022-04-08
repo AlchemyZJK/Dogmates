@@ -9,8 +9,8 @@ type User{
   pet_mail: String!
   pet_password: String!
   pet_postcode: String!
-  latitude: Int!
-  longitude: Int!
+  latitude: String!
+  longitude: String!
 }
 
 type Status {
@@ -69,7 +69,7 @@ input PostingAddInputs {
   title:String!
   kind:String!
   content:String!
-  poster_id:int!
+  poster_id:Int!
 }
 
 #Top level declarations

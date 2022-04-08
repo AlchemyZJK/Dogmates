@@ -27,7 +27,7 @@ async function delet(_, { posting_id }) {
 async function Inf() {
     const db = getDb();
     const postings = await db.collection("postings").find({}).toArray();
-	return postings
+	  return postings;
 }
 
-module.export = { add, delet, Inf};
+module.exports = { add, delet, Inf};

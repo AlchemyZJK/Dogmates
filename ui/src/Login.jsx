@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import graphQLFetch from './graphql/graphQLFetch.js';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -8,12 +9,20 @@ export default class Login extends React.Component {
     this.state = { loginSuccess: false };
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const { getUser } = this.props;
     const { loginForm } = document.forms;
-    console.log(loginForm.email.value);
-    console.log(loginForm.password.value);
+    const email = loginForm.email.value;
+    const password = loginForm.password.value;
+    const loginQuery = `mutation {
+      petLogin {
+        pet_mail pet_password
+      }
+    }`;
+
+    const data = await graphQLFetch(loginQuery, { pet_mail: email, pet_password: password });
+    console.log(data);
     getUser({ id: 1, name: 'Mono' });
     alert('[Success]Login Successful.');
     this.setState({ loginSuccess: true });
