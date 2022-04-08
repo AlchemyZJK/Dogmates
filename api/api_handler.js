@@ -2,12 +2,25 @@ const fs = require('fs');
 require('dotenv').config();
 const { ApolloServer } = require('apollo-server-express');
 
+const GraphQLDate = require('./graphqldate.js');
 const test = require('./test.js');
+const pet = require('./pet.js');
+const posting = require('./posting.js');
 
 const resolvers = {
   Query: {
     test: test.getMessage,
+    petInf: pet.Inf,
+    postingInf: posting.Inf,
+    
   },
+  Mutation: {
+    petLogin: pet.login,
+    petRegister: pet.register,
+    addPosting: posting.add,
+    deletePosting: posting.delet
+  },
+  GraphQLDate,
 };
 
 const server = new ApolloServer({

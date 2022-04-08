@@ -1,3 +1,88 @@
+scalar GraphQLDate
+
+
+type User{
+  _id:ID!
+  pet_id: Int!
+  pet_name: String!
+  pet_breed: String!
+  pet_mail: String!
+  pet_password: String!
+  pet_postcode: String!
+  latitude: Int!
+  longitude: Int!
+}
+
+type Status {
+  valid: Boolean!
+  message: String!
+}
+
+type Output{
+  data: User
+  status: Status!
+}
+
+type Message{
+  _id:ID!
+  message_id:Int!
+  contact_id:Int!
+  sender_id:Int!
+  receiver_id:Int!
+  content:String!
+  updated_at: GraphQLDate!
+}
+
+type ContactList{
+  _id:ID!
+  contact_id:Int!
+  user_a:String!
+  user_b: String!
+}
+
+type Posting{
+  _id:ID!
+  posting_id:Int!
+  kind:String!
+  content:String!
+  poster_id:Int!
+  created_at: GraphQLDate!
+}
+
+
+#Toned down pet informarion, used as inputs, without server generated value
+
+input PetLoginInputs {
+  pet_mail:String!
+  pet_password:String!
+}
+
+input PetRegisterInputs {
+  pet_name: String!
+  pet_breed: String!
+  pet_mail: String!
+  pet_password: String!
+  pet_postcode: String!
+}
+
+input PostingAddInputs {
+  title:String!
+  kind:String!
+  content:String!
+  poster_id:int!
+}
+
+#Top level declarations
+
 type Query {
   test: String!
+  petInf: [User!]
+  postingInf: [Posting!]!
+}
+
+type Mutation {
+  petLogin(login: PetLoginInputs!): Output!
+  petRegister(register: PetRegisterInputs!): Output!
+  addPosting(posting: PostingAddInputs!): Boolean!
+  deletePosting(posting_id: Int!): Boolean!
 }
