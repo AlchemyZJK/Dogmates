@@ -9,7 +9,9 @@ const petDB={
     pet_breed: 'Teddy',
     pet_mail: 'lily02@123.com',
     pet_password: 'lily0123',
-    pet_postcode: '123456',
+    pet_postcode: '117565',
+    latitude: "1.297413",
+    longitude : "103.771114",
 }
 
 db.pets.insert(petDB);
