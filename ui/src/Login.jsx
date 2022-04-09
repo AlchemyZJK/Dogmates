@@ -15,17 +15,19 @@ export default class Login extends React.Component {
     const { loginForm } = document.forms;
     const email = loginForm.email.value;
     const password = loginForm.password.value;
-    const loginQuery = `mutation {
-      petLogin {
-        pet_mail pet_password
+    console.log(email, password);
+    const loginQuery = `mutation petLogin($login: PetLoginInputs!){
+      petLogin(login: $login){
+        data { _id pet_id pet_name pet_breed pet_mail pet_password pet_postcode latitude longitude }
+        status { valid message}
       }
     }`;
 
-    const data = await graphQLFetch(loginQuery, { pet_mail: email, pet_password: password });
+    const data = await graphQLFetch(loginQuery, { login: { pet_mail: email, pet_password: password } });
     console.log(data);
-    getUser({ id: 1, name: 'Mono' });
-    alert('[Success]Login Successful.');
-    this.setState({ loginSuccess: true });
+    // getUser({ id: 1, name: 'Mono' });
+    // alert('[Success]Login Successful.');
+    // this.setState({ loginSuccess: true });
   }
 
   render() {
