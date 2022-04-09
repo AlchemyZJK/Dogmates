@@ -3,22 +3,19 @@ const fetch = require('node-fetch');
 const { get } = require('http');
 
 async function getLatLngByZipcode(zipcode){
-	let latitude;
-	let longitude;
-	let errors = [];
-	let geolocation = [];
+	const errors = [];
+	const geolocation = [];
 	const response = await fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + zipcode + "&key=AIzaSyBDVOCPE8oebdrOl2egU9kZt_bO48RDr-s");
 	const geocode = await response.json();
-	if (geocode.status == "OK") {
+	if (geocode.status === 'OK') {
 		const latitude = geocode.results[0].geometry.location.lat;
 		const longitude = geocode.results[0].geometry.location.lng;
 		geolocation.push(latitude);
 		geolocation.push(longitude);
-		return geolocation
-
+		return geolocation;
 	}
 	else {
-		errors.push("This location does not exist!");
+		errors.push('This location does not exist!');
 		return errors;
 	}
 
@@ -102,7 +99,7 @@ async function register(_, { register }) {
 async function Inf() {
 	const db = getDb();
 	const issues = await db.collection("pets").find({}).toArray();
-	return issues
+	return issues;
 }
 
-module.exports ={login, register, Inf};
+module.exports = {login, register, Inf};

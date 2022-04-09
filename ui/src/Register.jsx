@@ -1,24 +1,52 @@
 import React from 'react';
 import { Link, Navigate } from 'react-router-dom';
+import graphQLFetch from './graphql/graphQLFetch.js';
 
 export default class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = { registerSuccess: false };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.options = [
+      { id: 0, value: 'breed' },
+      { id: 1, value: 'Husky' },
+      { id: 2, value: 'Border Collie' },
+      { id: 3, value: 'Golden Retrievers' },
+    ];
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const { getUser } = this.props;
     const { registerForm } = document.forms;
-    console.log(registerForm.email.value);
-    console.log(registerForm.name.value);
-    console.log(registerForm.kind.value);
-    console.log(registerForm.password.value);
-    getUser({ id: 1, name: 'Mono' });
-    alert('[Success]Register Success');
-    this.setState({ registerSuccess: true });
+    const email = registerForm.email.value;
+    const name = registerForm.name.value;
+    const breed = this.options[parseInt(registerForm.breed.value)].value;
+    const password = registerForm.password.value;
+    const postcode = registerForm.postcode.value;
+
+    const newUser = {
+      pet_name: name,
+      pet_breed: breed,
+      pet_mail: email,
+      pet_password: password,
+      pet_postcode: postcode,
+    };
+    console.log(newUser);
+
+    const registerQuery = `mutation petRegister($register: PetRegisterInputs!) {
+      petRegister(register: $register) {
+        data { _id pet_id pet_name pet_breed pet_mail pet_password pet_postcode latitude longitude }
+        status { valid message}
+      }
+    }`;
+
+    const data = await graphQLFetch(registerQuery, { register: newUser });
+    console.log(data);
+
+    // getUser({ id: 1, name: 'Mono' });
+    // alert('[Success]Register Success');
+    // this.setState({ registerSuccess: true });
   }
 
   render() {
@@ -26,12 +54,6 @@ export default class Register extends React.Component {
     if (registerSuccess) {
       return <Navigate to="/" />;
     }
-    const options = [
-      { id: 0, value: 'breed' },
-      { id: 1, value: 'Husky' },
-      { id: 2, value: 'Border Collie' },
-      { id: 3, value: 'Golden Retrievers' },
-    ];
     const defaultOptions = 0;
     return (
       <div className="login-register-page">
@@ -39,13 +61,19 @@ export default class Register extends React.Component {
           <input id="email" type="email" placeholder="email" required />
           <input id="name" type="text" placeholder="username" required />
           <select name="breed" id="breed" defaultValue={defaultOptions} required>
-            {options.map((option) => (
-              <option key={option.id} value={option.id} disabled={option.id === 0} hidden={option.id === 0}>
+            {this.options.map((option) => (
+              <option
+                key={option.id}
+                value={option.id}
+                disabled={option.id === 0}
+                hidden={option.id === 0}
+              >
                 {option.value}
               </option>
             ))}
           </select>
           <input id="password" type="password" placeholder="password" required />
+          <input id="postcode" type="text" placeholder="postcode" required />
           <button type="submit">Register</button>
           <div className="link">
             <Link to="/login">Go to SignIn</Link>

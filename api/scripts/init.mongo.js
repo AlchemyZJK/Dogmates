@@ -7,7 +7,7 @@ const petDB={
     pet_id: 1,
     pet_name: 'Lily',
     pet_breed: 'Teddy',
-    pet_mail: 'lily02@123.com',
+    pet_mail: 'lily@puppy.com',
     pet_password: 'lily0123',
     pet_postcode: '117565',
     latitude: "1.297413",
@@ -33,10 +33,6 @@ const postingDB = {
   db.postings.insert(postingDB);
   const countposting = db.postings.count();
   print('Add', count, 'postings');
-  
+
   db.counters.remove({ _id: 'postings' });
   db.counters.insert({ _id: 'postings', current: countposting});
-
-
-
-
