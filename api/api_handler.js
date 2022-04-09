@@ -18,7 +18,7 @@ const resolvers = {
     petLogin: pet.login,
     petRegister: pet.register,
     addPosting: posting.addPosting,
-    deletePosting: posting.deletePosting
+    deletePosting: posting.deletePosting,
   },
   GraphQLDate,
 };

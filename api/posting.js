@@ -23,7 +23,7 @@ async function addPosting(_, { posting }) {
     else {
         const newPosting = Object.assign({}, posting);
         newPosting.created_at = new Date();
-        newPosting.id = await getNextSequence("postings");
+        newPosting.posting_id = await getNextSequence("postings");
         const result = await db.collection('postings').insertOne(newPosting);
         return true;
     }
