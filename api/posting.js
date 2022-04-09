@@ -1,18 +1,35 @@
 const {getDb, getNextSequence} = require('./db.js');
+const { get } = require('http');
 
-//when is false; how to get poster_id
-async function add(_, { posting }) {
+
+function validate(posting) {
+    const errors = [];
+    if (posting.title.length < 1) {
+      errors.push('Field "title" can not be empty.');
+    }
+    if (posting.content.length < 1) {
+      errors.push('Field "content" can not be empty.');
+    }
+    return errors;
+  }
+
+
+async function addPosting(_, { posting }) {
     const db = getDb();
-
-    const newPosting = Object.assign({}, posting);
-    newPosting.created_at = new Date();
-    newPosting.id = await getNextSequence("postings");
-
-    const result = await db.collection('postings').insertOne(newPosting);
-    return true;
+    const errors = validate(posting);
+    if (errors.length > 0 ){
+        return false;
+    }
+    else {
+        const newPosting = Object.assign({}, posting);
+        newPosting.created_at = new Date();
+        newPosting.id = await getNextSequence("postings");
+        const result = await db.collection('postings').insertOne(newPosting);
+        return true;
+    }
 }
 
-async function delet(_, { posting_id }) {
+async function deletePosting(_, { posting_id }) {
     const db = getDb();
     const deletedPosting = await db.collection("postings").findOne({posting_id:posting_id});
     if (deletedPosting == null) {
@@ -30,4 +47,5 @@ async function Inf() {
 	return postings
 }
 
-module.export = { add, delet, Inf};
+
+module.exports = { addPosting, deletePosting, Inf};
