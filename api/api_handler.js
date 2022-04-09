@@ -12,13 +12,13 @@ const resolvers = {
     test: test.getMessage,
     petInf: pet.Inf,
     postingInf: posting.Inf,
-    
   },
+  
   Mutation: {
     petLogin: pet.login,
     petRegister: pet.register,
-    addPosting: posting.add,
-    deletePosting: posting.delet
+    addPosting: posting.addPosting,
+    deletePosting: posting.deletePosting
   },
   GraphQLDate,
 };
