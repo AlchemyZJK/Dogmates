@@ -12,7 +12,6 @@ const resolvers = {
     test: test.getMessage,
     petInf: pet.Inf,
     postingInf: posting.Inf,
-    
   },
   Mutation: {
     petLogin: pet.login,
