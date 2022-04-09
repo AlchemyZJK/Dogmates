@@ -6,6 +6,8 @@ const GraphQLDate = require('./graphqldate.js');
 const test = require('./test.js');
 const pet = require('./pet.js');
 const posting = require('./posting.js');
+const contactlist = require('./contactlist.js');
+const message = require('./message.js');
 
 const resolvers = {
   Query: {
@@ -19,6 +21,10 @@ const resolvers = {
     petRegister: pet.register,
     addPosting: posting.addPosting,
     deletePosting: posting.deletePosting,
+    addContactList: contactlist.add,
+    getContactList: contactlist.get,
+    getAllMessages: message.get,
+    addMessages: message.add,
   },
   GraphQLDate,
 };

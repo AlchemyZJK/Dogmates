@@ -67,8 +67,6 @@ async function register(_, { register }) {
 	const geolocation = await getLatLngByZipcode(register.pet_postcode);
 	const LatitudeOrError = geolocation[0]
 	const Longitude = geolocation[1];
-	console.log(LatitudeOrError) 
-	console.log(Longitude)
 	if (oldpet != null) {
 		errors.push("The user already exists")
 		Status.valid = false;

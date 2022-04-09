@@ -24,37 +24,37 @@ type Output{
 }
 
 type Message{
-  _id:ID!
-  message_id:Int!
-  contact_id:Int!
-  sender_id:Int!
-  receiver_id:Int!
-  content:String!
-  updated_at: GraphQLDate!
+  _id: ID!
+  message_id: Int!
+  contact_id: Int!
+  sender_id: Int!
+  receiver_id: Int!
+  content: String!
+  sent_at: GraphQLDate!
 }
 
 type ContactList{
-  _id:ID!
-  contact_id:Int!
-  user_a:String!
-  user_b: String!
+  _id: ID!
+  contact_id: Int!
+  user_a: Int!
+  user_b: Int!
 }
 
 type Posting{
-  _id:ID!
-  posting_id:Int!
-  title:String!
-  kind:String!
-  content:String!
-  poster_id:Int!
+  _id: ID!
+  posting_id: Int!
+  title: String!
+  kind: String!
+  content: String!
+  poster_id: Int!
   created_at: GraphQLDate!
 }
 
 #Toned down pet informarion, used as inputs, without server generated value
 
 input PetLoginInputs {
-  pet_mail:String!
-  pet_password:String!
+  pet_mail: String!
+  pet_password: String!
 }
 
 input PetRegisterInputs {
@@ -66,10 +66,17 @@ input PetRegisterInputs {
 }
 
 input PostingAddInputs {
-  title:String!
-  kind:String!
-  content:String!
-  poster_id:Int!
+  title: String!
+  kind: String!
+  content: String!
+  poster_id: Int!
+}
+
+input MessageAddInputs {
+  contact_id: Int!
+  sender_id: Int!
+  receiver_id: Int!
+  content: String!
 }
 
 #Top level declarations
@@ -85,4 +92,8 @@ type Mutation {
   petRegister(register: PetRegisterInputs!): Output!
   addPosting(posting: PostingAddInputs!): Boolean!
   deletePosting(posting_id: Int!): Boolean!
+  addContactList(usera: Int!, userb: Int!): Boolean!
+  getContactList(usera: Int!): [ContactList!]!
+  getAllMessages(usera: Int!, userb: Int!): [Message!]!
+  addMessages(message: MessageAddInputs!): Message!
 }
