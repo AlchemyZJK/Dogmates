@@ -102,7 +102,12 @@ export default function Map(props) {
           style={{ height: '100%' }}
         >
           {dogs.map((dog) => {
-            return <Marker key={dog.id} position={dog.location} label={dog.name} />;
+            console.log(dog);
+            const location = {
+              lat: parseFloat(dog.latitude),
+              lng: parseFloat(dog.longitude),
+            };
+            return <Marker key={dog.pet_id} position={location} label={dog.pet_name} />;
           })}
         </MyMap>
       </Wrapper>

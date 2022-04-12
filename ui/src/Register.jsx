@@ -32,7 +32,7 @@ export default class Register extends React.Component {
       pet_password: password,
       pet_postcode: postcode,
     };
-    console.log(newUser);
+    // console.log(newUser);
 
     const registerQuery = `mutation petRegister($register: PetRegisterInputs!) {
       petRegister(register: $register) {
@@ -41,12 +41,12 @@ export default class Register extends React.Component {
       }
     }`;
 
-    const data = await graphQLFetch(registerQuery, { register: newUser });
-    console.log(data);
+    const res = await graphQLFetch(registerQuery, { register: newUser });
+    // console.log(res);
 
-    // getUser({ id: 1, name: 'Mono' });
+    getUser(res.petRegister.data);
     // alert('[Success]Register Success');
-    // this.setState({ registerSuccess: true });
+    this.setState({ registerSuccess: true });
   }
 
   render() {

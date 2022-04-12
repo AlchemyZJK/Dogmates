@@ -13,16 +13,35 @@ import NewPosting from './NewPosting.jsx';
 import Chatting from './Chatting.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
+import graphQLFetch from './graphql/graphQLFetch';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { user: undefined };
     this.getUser = this.getUser.bind(this);
+    this.loadAllPostings = this.loadAllPostings.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadAllPostings();
   }
 
   getUser(user) {
     this.setState({ user });
+  }
+
+  async loadAllPostings() {
+    const allPostingsQuery = `query {
+      postingInf {
+        _id posting_id title kind content poster_id created_at
+      }
+    }`;
+
+    const allPostings = await graphQLFetch(allPostingsQuery);
+    if (allPostings) {
+      console.log(allPostings);
+    }
   }
 
   render() {

@@ -10,7 +10,7 @@ async function add(_, { usera, userb }) {
     const db = getDb();
     const pet_a = await db.collection('pets').find({ pet_id: usera}).toArray();
     const pet_b = await db.collection('pets').find({ pet_id: userb}).toArray();
-    if ( pet_a.length < 1 || pet_b.length <1 ) {
+    if (pet_a.length < 1 || pet_b.length < 1) {
         return false
     }
     else {
@@ -19,14 +19,14 @@ async function add(_, { usera, userb }) {
         newContactListOfA.user_a = usera;
         newContactListOfA.user_b = userb;
         newContactListOfA.contact_id = await getNextSequence('contactlists');
-        const result1 = await db.collection('contactlists').insertOne(newContactList);
+        // const result1 = await db.collection('contactlists').insertOne(newContactList);
         const newContactListOfB = new Object();
         newContactListOfB.user_a = userb;
         newContactListOfB.user_b = usera;
         newContactListOfB.contact_id = await getNextSequence('contactlists');
-        const result1 = await db.collection('contactlists').insertOne(newContactListOfA);
-        const result2 = await db.collection('contactlists').insertOne(newContactListOfB);
-        return true
+        // const result1 = await db.collection('contactlists').insertOne(newContactListOfA);
+        // const result2 = await db.collection('contactlists').insertOne(newContactListOfB);
+        return true;
     }
 }
 

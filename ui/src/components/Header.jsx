@@ -23,7 +23,7 @@ export default function Header(props) {
       <Link to={user === undefined ? '/login' : '/dogal-space'}>
         <img src="./imgs/paws.png" alt="paw-icon" width="32" height="32" />
       </Link>
-      <span className="user-sign-in-up">{user === undefined ? 'SignIn/SignUp' : `Hello, ${user.name}`}</span>
+      <span className="user-sign-in-up">{user === undefined ? 'SignIn/SignUp' : `Hello, ${user.pet_name}`}</span>
     </header>
   );
 }

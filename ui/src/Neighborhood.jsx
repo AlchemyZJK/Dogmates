@@ -1,24 +1,49 @@
 import React from 'react';
 
 import Map from './components/Map.jsx';
+import graphQLFetch from './graphql/graphQLFetch.js';
 
 export default class Neighborhood extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dogs: [
-        { id: 1, name: 'Momo', kind: 'Husky', imgUrl: './imgs/dog_imgs/husky.png', location: { lat: 1.29503, lng: 103.77366 } },
-        { id: 2, name: 'Lucky', kind: 'Border Collie', imgUrl: './imgs/dog_imgs/border-collie.png', location: { lat: 1.29094, lng: 103.77240 } },
-      ],
-    };
+    this.state = { dogs: [], keyword: '', results: [] };
+    this.loadAllUsers = this.loadAllUsers.bind(this);
+    this.getSearchResult = this.getSearchResult.bind(this);
+  }
+
+  componentDidMount() {
+    this.loadAllUsers();
+  }
+
+  getSearchResult(keyword) {
+    const { dogs } = this.state;
+    const results = dogs.filter(
+      (dog) => dog.pet_name.toLowerCase().indexOf(keyword) !== -1,
+    );
+    this.setState({ keyword, results });
+  }
+
+  async loadAllUsers() {
+    const query = `query {
+      petInf {
+        _id pet_id pet_name pet_breed pet_mail pet_postcode latitude longitude
+      }
+    }`;
+
+    const res = await graphQLFetch(query);
+    // console.log(res);
+    if (res) {
+      this.setState({ dogs: res.petInf, results: res.petInf });
+    }
   }
 
   render() {
-    const { dogs } = this.state;
+    const { dogs, keyword, results } = this.state;
+    const items = keyword === '' ? dogs : results;
     return (
       <div className="neighborhood-container">
-        <SearchContainer dogs={dogs} />
-        <Map dogs={dogs} />
+        <SearchContainer dogs={items} setKeyword={this.getSearchResult} />
+        <Map dogs={items} />
       </div>
     );
   }
@@ -33,9 +58,9 @@ class SearchContainer extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const form = document.forms.searchForm;
-    const keyword = form.keyword.value;
-    console.log(keyword);
-    form.keyword.value = '';
+    const keyword = form.keyword.value.toLowerCase();
+    const { setKeyword } = this.props;
+    setKeyword(keyword);
   }
 
   render() {
@@ -60,7 +85,18 @@ class SearchContainer extends React.Component {
         </form>
         <div className="search-list">
           {dogs.map(
-            (dog) => <SearchItem key={dog.id} imgUrl={dog.imgUrl} name={dog.name} kind={dog.kind} />
+            (dog) => {
+              const imgUrl = `./imgs/dog_imgs/${dog.pet_breed.toLowerCase().split(' ').join('-')}.png`;
+              return (
+                <SearchItem
+                  key={dog.pet_id}
+                  id={dog.pet_id}
+                  imgUrl={imgUrl}
+                  name={dog.pet_name}
+                  breed={dog.pet_breed}
+                />
+              );
+            },
           )}
         </div>
       </div>
@@ -69,13 +105,15 @@ class SearchContainer extends React.Component {
 }
 
 function SearchItem(props) {
-  const { imgUrl, name, kind } = props;
+  const {
+    id, imgUrl, name, breed,
+  } = props;
   return (
     <div className="search-item-container">
       <img src={imgUrl} width="64" height="64" alt="dog_img" />
       <div className="search-item-info">
         <div className="name">{`Name: ${name}`}</div>
-        <div className="kind">{`Kind: ${kind}`}</div>
+        <div className="kind">{`Kind: ${breed}`}</div>
       </div>
       <button type="button" className="add">Add</button>
     </div>
