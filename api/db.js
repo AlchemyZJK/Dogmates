@@ -20,7 +20,6 @@ async function getNextSequence(name) {
   return result.value.current;
 }
 
-
 function getDb() {
   return db;
 }
