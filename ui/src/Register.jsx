@@ -17,7 +17,7 @@ export default class Register extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    const { getUser } = this.props;
+    const { setUser } = this.props;
     const { registerForm } = document.forms;
     const email = registerForm.email.value;
     const name = registerForm.name.value;
@@ -44,7 +44,7 @@ export default class Register extends React.Component {
     const res = await graphQLFetch(registerQuery, { register: newUser });
     // console.log(res);
 
-    getUser(res.petRegister.data);
+    setUser(res.petRegister.data);
     // alert('[Success]Register Success');
     this.setState({ registerSuccess: true });
   }

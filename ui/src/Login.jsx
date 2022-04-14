@@ -11,7 +11,7 @@ export default class Login extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    const { getUser } = this.props;
+    const { setUser } = this.props;
     const { loginForm } = document.forms;
     const email = loginForm.email.value;
     const password = loginForm.password.value;
@@ -28,7 +28,7 @@ export default class Login extends React.Component {
       { login: { pet_mail: email, pet_password: password } },
     );
     // console.log(res);
-    getUser(res.petLogin.data);
+    setUser(res.petLogin.data);
     // alert('[Success]Login Successful.');
     this.setState({ loginSuccess: true });
   }

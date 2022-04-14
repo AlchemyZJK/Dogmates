@@ -1,11 +1,12 @@
 import React from 'react';
 import SideBar from './components/SideBar.jsx';
 
-export default function NewPosting() {
+export default function NewPosting(props) {
+  const { addPosting } = props;
   return (
     <div className="dogal-space-container">
       <SideBar />
-      <PublishPosting />
+      <PublishPosting addPosting={addPosting} />
     </div>
   );
 }
@@ -16,13 +17,14 @@ class PublishPosting extends React.Component {
     this.handlePublish = this.handlePublish.bind(this);
   }
 
-  handlePublish(e) {
+  async handlePublish(e) {
     e.preventDefault();
     const { publishForm } = document.forms;
-    console.log(publishForm.title.value);
-    console.log(publishForm.kind.value);
-    console.log(publishForm.content.value);
-    alert('[Success]Publish a new Posting Successful.');
+    const title = publishForm.title.value;
+    const kind = publishForm.kind.value;
+    const content = publishForm.content.value;
+    const { addPosting } = this.props;
+    addPosting(title, kind, content);
   }
 
   render() {

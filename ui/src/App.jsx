@@ -13,21 +13,22 @@ import NewPosting from './NewPosting.jsx';
 import Chatting from './Chatting.jsx';
 import Login from './Login.jsx';
 import Register from './Register.jsx';
-import graphQLFetch from './graphql/graphQLFetch';
+import graphQLFetch from './graphql/graphQLFetch.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { user: undefined };
-    this.getUser = this.getUser.bind(this);
+    this.setUser = this.setUser.bind(this);
     this.loadAllPostings = this.loadAllPostings.bind(this);
+    this.addPosting = this.addPosting.bind(this);
   }
 
   componentDidMount() {
     this.loadAllPostings();
   }
 
-  getUser(user) {
+  setUser(user) {
     this.setState({ user });
   }
 
@@ -44,6 +45,29 @@ class App extends React.Component {
     }
   }
 
+  async addPosting(title, kind, content) {
+    const addPostingQuery = `mutation addPosting($posting: PostingAddInputs!){
+      addPosting(posting: $posting)
+    }`;
+    const { user } = this.state;
+    const newPosting = {
+      title,
+      kind,
+      content,
+      poster_id: user.pet_id,
+    };
+    const res = await graphQLFetch(
+      addPostingQuery,
+      { posting: newPosting },
+    );
+    if (res) {
+      if (res.addPosting) {
+        alert('[Success]Publish a new Posting.');
+      }
+      await this.loadAllPostings();
+    }
+  }
+
   render() {
     const { user } = this.state;
     return (
@@ -55,10 +79,10 @@ class App extends React.Component {
           <Route path="/posting-space" element={<PostingSpace user={user} />} />
           <Route path="/dogal-space" element={<DogalSpace user={user} />} />
           <Route path="/my-posting" element={<MyPosting user={user} />} />
-          <Route path="/new-posting" element={<NewPosting user={user} />} />
+          <Route path="/new-posting" element={<NewPosting addPosting={this.addPosting} />} />
           <Route path="/chatting" element={<Chatting user={user} />} />
-          <Route path="/login" element={<Login getUser={this.getUser} />} />
-          <Route path="/register" element={<Register getUser={this.getUser} />} />
+          <Route path="/login" element={<Login setUser={this.setUser} />} />
+          <Route path="/register" element={<Register setUser={this.setUser} />} />
         </Routes>
         <Footer />
       </BrowserRouter>
