@@ -53,6 +53,17 @@ type Posting{
   created_at: GraphQLDate!
 }
 
+type OutputPosting{
+  _id: ID!
+  posting_id: Int!
+  title: String!
+  kind: String!
+  content: String!
+  poster_id: Int!
+  created_at: GraphQLDate!
+  user_name: String!
+}
+
 #Toned down pet informarion, used as inputs, without server generated value
 
 input PetLoginInputs {
@@ -87,7 +98,8 @@ input MessageAddInputs {
 type Query {
   test: String!
   petInf: [User!]
-  postingInf: [Posting!]
+  postingInf: [OutputPosting!]
+
 }
 
 type Mutation {
@@ -95,8 +107,9 @@ type Mutation {
   petRegister(register: PetRegisterInputs!): Output!
   addPosting(posting: PostingAddInputs!): Boolean!
   deletePosting(posting_id: Int!): Boolean!
+  getMyPosting(user_id: Int!): [OutputPosting!]
   addContactList(usera: Int!, userb: Int!): Status!
-  getContactList(usera: Int!): [Int!]!
+  getContactList(usera: Int!): [User!]!
   getAllMessages(usera: Int!, userb: Int!): [Message!]!
   addMessages(message: MessageAddInputs!): Message!
 }

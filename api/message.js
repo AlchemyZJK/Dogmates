@@ -24,7 +24,7 @@ async function add(_, {message}) {
     const contactId = message.contact_id;
     const sender = message.sender_id;
     const receiver = message.receiver_id;
-    const contactlist = await db.collection('contactlists').findOne({contact_id: contactId, })
+    const contactlist = await db.collection('contactlists').findOne({contact_id: contactId});
     const newMessage = Object.assign({}, message);
     newMessage.message_id = await getNextSequence('messages');
     newMessage.sent_at = new Date();
@@ -33,5 +33,5 @@ async function add(_, {message}) {
     return newaddmessage;
 }
 
-module.exports = { get, add }
+module.exports = { get, add };
   
