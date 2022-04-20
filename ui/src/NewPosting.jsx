@@ -14,6 +14,11 @@ export default function NewPosting(props) {
 class PublishPosting extends React.Component {
   constructor(props) {
     super(props);
+    this.options = [
+      { id: 1, value: 'Birthday Party' },
+      { id: 2, value: 'Make new Friends' },
+      { id: 3, value: 'Play Together' },
+    ];
     this.handlePublish = this.handlePublish.bind(this);
   }
 
@@ -21,18 +26,13 @@ class PublishPosting extends React.Component {
     e.preventDefault();
     const { publishForm } = document.forms;
     const title = publishForm.title.value;
-    const kind = publishForm.kind.value;
+    const kind = this.options[parseInt(publishForm.kind.value) - 1];
     const content = publishForm.content.value;
     const { addPosting } = this.props;
     addPosting(title, kind, content);
   }
 
   render() {
-    const options = [
-      { id: 1, value: 'Birthday Party' },
-      { id: 2, value: 'Make new Friends' },
-      { id: 3, value: 'Play Together' },
-    ];
     const defaultOptions = 0;
     return (
       <div className="publish-container">
@@ -42,7 +42,7 @@ class PublishPosting extends React.Component {
           <input type="text" id="title" placeholder="Enter activity title." />
           <label htmlFor="kind">Activity Kind:</label>
           <select name="kind" id="kind" defaultValue={defaultOptions} required>
-            {options.map((option) => (
+            {this.options.map((option) => (
               <option key={option.id} value={option.id}>
                 {option.value}
               </option>

@@ -18,9 +18,10 @@ import graphQLFetch from './graphql/graphQLFetch.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { user: undefined };
+    this.state = { user: undefined, allPostings: [], userPostings: [] };
     this.setUser = this.setUser.bind(this);
     this.loadAllPostings = this.loadAllPostings.bind(this);
+    this.loadMyPostings = this.loadMyPostings.bind(this);
     this.addPosting = this.addPosting.bind(this);
   }
 
@@ -41,15 +42,19 @@ class App extends React.Component {
 
     const allPostings = await graphQLFetch(allPostingsQuery);
     if (allPostings) {
-      console.log(allPostings);
+      this.setState({ allPostings: allPostings.postingInf });
     }
   }
 
+  async loadMyPostings() {
+    const { user } = this.state;
+  }
+
   async addPosting(title, kind, content) {
+    const { user } = this.state;
     const addPostingQuery = `mutation addPosting($posting: PostingAddInputs!){
       addPosting(posting: $posting)
     }`;
-    const { user } = this.state;
     const newPosting = {
       title,
       kind,
@@ -68,17 +73,26 @@ class App extends React.Component {
     }
   }
 
-  render() {
+  async loadMyContactList() {
     const { user } = this.state;
+    const getContactListQuery = `mutation getContactList($usera: Int!){
+      getContactList(usera: $usera) {
+        _id contact_id user_a user_b: Int!
+      }
+    }`;
+  }
+
+  render() {
+    const { user, allPostings, userPostings } = this.state;
     return (
       <BrowserRouter>
         <Header user={user} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/neighborhood" element={<Neighborhood user={user} />} />
-          <Route path="/posting-space" element={<PostingSpace user={user} />} />
+          <Route path="/posting-space" element={<PostingSpace user={user} postings={allPostings} />} />
           <Route path="/dogal-space" element={<DogalSpace user={user} />} />
-          <Route path="/my-posting" element={<MyPosting user={user} />} />
+          <Route path="/my-posting" element={<MyPosting user={user} postings={userPostings} />} />
           <Route path="/new-posting" element={<NewPosting addPosting={this.addPosting} />} />
           <Route path="/chatting" element={<Chatting user={user} />} />
           <Route path="/login" element={<Login setUser={this.setUser} />} />

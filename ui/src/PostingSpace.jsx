@@ -5,23 +5,10 @@ import PostCard from './components/PostCard.jsx';
 export default class PostingSpace extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      postings: [
-        {
-          id: 1, imgUrl: './imgs/posting_imgs/party_time.png', time: '2022/03/14', poster: { name: 'Momo' }, title: 'Birthday Party Welcome!', content: 'Next Friday will be my 5th Birthday! I decide to hold a small part at Dogwood Park. Do you want to join the party?',
-        },
-        {
-          id: 2, imgUrl: './imgs/posting_imgs/friends.png', time: '2022/02/22', poster: { name: 'Lucky' }, title: 'Make New Friends', content: 'I just make this posting to make some new friends. Would you like add me to your contact list?',
-        },
-        {
-          id: 3, imgUrl: './imgs/posting_imgs/dog-walking.png', time: '2022/03/27', poster: { name: 'Momo' }, title: 'Let us Play!', content: 'Let us make an appointment and play at the Dogwood Park? Would you like join me?',
-        },
-      ],
-    };
   }
 
   render() {
-    const { postings } = this.state;
+    const { postings } = this.props;
     return (
       <>
         <div className="posting-bar">
@@ -30,7 +17,7 @@ export default class PostingSpace extends React.Component {
           <img src="./imgs/party-copy.png" height="128" width="128" alt="party-img" />
         </div>
         <div className="posting-container">
-          {postings.map((post) => <PostCard key={post.id} post={post} buttonText="Contact Me" />)}
+          {postings.map((posting) => <PostCard key={posting.posting_id} posting={posting} buttonText="Contact Me" />)}
         </div>
       </>
     );
