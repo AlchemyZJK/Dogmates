@@ -24,7 +24,7 @@ const resolvers = {
     addContactList: contactlist.add,
     getContactList: contactlist.get,
     getAllMessages: message.get,
-    addMessages: message.add, 
+    addMessages: message.add,
   },
   GraphQLDate,
 };
