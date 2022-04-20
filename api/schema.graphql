@@ -23,6 +23,9 @@ type Output{
   status: Status!
 }
 
+
+
+
 type Message{
   _id: ID!
   message_id: Int!
@@ -92,8 +95,8 @@ type Mutation {
   petRegister(register: PetRegisterInputs!): Output!
   addPosting(posting: PostingAddInputs!): Boolean!
   deletePosting(posting_id: Int!): Boolean!
-  addContactList(usera: Int!, userb: Int!): Boolean!
-  getContactList(usera: Int!): [ContactList!]!
+  addContactList(usera: Int!, userb: Int!): Status!
+  getContactList(usera: Int!): [Int!]!
   getAllMessages(usera: Int!, userb: Int!): [Message!]!
   addMessages(message: MessageAddInputs!): Message!
 }
