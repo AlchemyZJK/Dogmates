@@ -11,7 +11,7 @@ async function add(_, { usera, userb }) {
     const pet_a = await db.collection('pets').find({ pet_id: usera}).toArray();
     const pet_b = await db.collection('pets').find({ pet_id: userb}).toArray();
     if (pet_a.length < 1 || pet_b.length < 1) {
-        return false
+        return false;
     }
     else {
         //if add twice?
@@ -30,4 +30,4 @@ async function add(_, { usera, userb }) {
     }
 }
 
-module.exports = { get, add }
+module.exports = { get, add };
