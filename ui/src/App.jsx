@@ -82,6 +82,16 @@ class App extends React.Component {
     }`;
   }
 
+  async addToMyContactList(id) {
+    const { user } = this.state;
+    const addContactListQuery = `mutation addContactList($usera: Int!, $userb: Int!){
+      getContactList(usera: $usera, userb: $userb) {
+        valid message
+      }
+    }`;
+    const res = await graphQLFetch()
+  }
+
   render() {
     const { user, allPostings, userPostings } = this.state;
     return (
