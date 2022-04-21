@@ -21,10 +21,11 @@ const resolvers = {
     petRegister: pet.register,
     addPosting: posting.addPosting,
     deletePosting: posting.deletePosting,
+    getMyPosting: posting.getMy,
     addContactList: contactlist.add,
     getContactList: contactlist.get,
     getAllMessages: message.get,
-    addMessages: message.add, 
+    addMessages: message.add,
   },
   GraphQLDate,
 };

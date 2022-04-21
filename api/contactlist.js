@@ -11,7 +11,11 @@ async function get(_, { usera }) {
   for (let j = 0; j < contactlist2.length; j++) {
     contactlist.push(contactlist2[j].user_a);
   }
-  return contactlist;
+  async function getUser(userid) {
+    return await db.collection("pets").findOne({pet_id: userid});
+  }
+  const contactlistUser = contactlist.map(getUser);
+  return contactlistUser;
 }
 
 async function add(_, { usera, userb }) {
@@ -34,7 +38,6 @@ async function add(_, { usera, userb }) {
     result.valid = false;
     return result;
   } else {
-    //if add twice?
     const newContactList = new Object();
     newContactList.user_a = usera;
     newContactList.user_b = userb;
@@ -45,5 +48,4 @@ async function add(_, { usera, userb }) {
     return result;
   }
 }
-
 module.exports = { get, add };
