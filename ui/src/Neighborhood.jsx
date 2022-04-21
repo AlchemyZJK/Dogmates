@@ -31,18 +31,27 @@ export default class Neighborhood extends React.Component {
     }`;
 
     const res = await graphQLFetch(query);
-    // console.log(res);
     if (res) {
-      this.setState({ dogs: res.petInf, results: res.petInf });
+      if (res.petInf) {
+        this.setState({ dogs: res.petInf, results: res.petInf });
+      } else {
+        console.error('[Failed]Failed to Load All Users.');
+      }
     }
   }
 
   render() {
+    const { addToContactList, user } = this.props;
     const { dogs, keyword, results } = this.state;
     const items = keyword === '' ? dogs : results;
     return (
       <div className="neighborhood-container">
-        <SearchContainer dogs={items} setKeyword={this.getSearchResult} />
+        <SearchContainer
+          dogs={items}
+          user={user}
+          setKeyword={this.getSearchResult}
+          addToContactList={addToContactList}
+        />
         <Map dogs={items} />
       </div>
     );
@@ -64,7 +73,9 @@ class SearchContainer extends React.Component {
   }
 
   render() {
-    const { dogs } = this.props;
+    const { user, dogs, addToContactList } = this.props;
+    const filteredDogs = user === undefined
+      ? dogs : dogs.filter((dog) => dog.pet_id !== user.pet_id);
     return (
       <div className="search-container">
         <form className="search-form" name="searchForm" onSubmit={this.handleSubmit}>
@@ -84,7 +95,7 @@ class SearchContainer extends React.Component {
           </span>
         </form>
         <div className="search-list">
-          {dogs.map(
+          {filteredDogs.map(
             (dog) => {
               const imgUrl = `./imgs/dog_imgs/${dog.pet_breed.toLowerCase().split(' ').join('-')}.png`;
               return (
@@ -94,6 +105,7 @@ class SearchContainer extends React.Component {
                   imgUrl={imgUrl}
                   name={dog.pet_name}
                   breed={dog.pet_breed}
+                  addToContactList={addToContactList}
                 />
               );
             },
@@ -106,7 +118,7 @@ class SearchContainer extends React.Component {
 
 function SearchItem(props) {
   const {
-    id, imgUrl, name, breed,
+    id, imgUrl, name, breed, addToContactList
   } = props;
   return (
     <div className="search-item-container">
@@ -115,7 +127,7 @@ function SearchItem(props) {
         <div className="name">{`Name: ${name}`}</div>
         <div className="kind">{`Kind: ${breed}`}</div>
       </div>
-      <button type="button" className="add">Add</button>
+      <button type="button" className="add" onClick={() => addToContactList(id)}>Add</button>
     </div>
   );
 }

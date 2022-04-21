@@ -19,7 +19,6 @@ db.counters.insert({ _id: 'postings', current: countposting });
 
 db.postings.createIndex({ posting_id: 1 }, { unique: true });
 
-
 const countcontactlist = db.contactlists.count();
 print('Add', countcontactlist, 'contactlist');
 

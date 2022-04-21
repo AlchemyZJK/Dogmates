@@ -26,7 +26,7 @@ class PublishPosting extends React.Component {
     e.preventDefault();
     const { publishForm } = document.forms;
     const title = publishForm.title.value;
-    const kind = this.options[parseInt(publishForm.kind.value) - 1];
+    const kind = this.options[parseInt(publishForm.kind.value) - 1].value;
     const content = publishForm.content.value;
     const { addPosting } = this.props;
     addPosting(title, kind, content);

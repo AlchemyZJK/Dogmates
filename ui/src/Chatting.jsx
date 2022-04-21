@@ -2,11 +2,11 @@ import React from 'react';
 import SideBar from './components/SideBar.jsx';
 
 export default function Chatting(props) {
-  const { user } = props;
+  const { user, contactList } = props;
   return (
     <div className="dogal-space-container">
       <SideBar />
-      <ChatBox user={user} />
+      <ChatBox user={user} contactList={contactList} />
     </div>
   );
 }
@@ -51,6 +51,7 @@ class ChatBox extends React.Component {
   }
 
   render() {
+    const { contactList } = this.props;
     const { chatters, selectedChatter, selectedChatting } = this.state;
     const { user } = this.props;
     return (
