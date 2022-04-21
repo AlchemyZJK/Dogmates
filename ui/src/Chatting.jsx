@@ -1,5 +1,6 @@
 import React from 'react';
 import SideBar from './components/SideBar.jsx';
+import graphQLFetch from './graphql/graphQLFetch.js';
 
 export default function Chatting(props) {
   const { user, contactList } = props;
@@ -14,44 +15,84 @@ export default function Chatting(props) {
 class ChatBox extends React.Component {
   constructor(props) {
     super(props);
+    this.loadMessage = this.loadMessage.bind(this);
     this.handleSelectedChatter = this.handleSelectedChatter.bind(this);
     this.handleSendMessage = this.handleSendMessage.bind(this);
     this.state = {
-      chatters: [
-        {
-          id: 2, name: 'Lucky', imgUrl: './imgs/dog_imgs/border-collie.png', latestMessage: 'Welcome to my ...',
-        },
-        {
-          id: 3, name: 'Percy', imgUrl: './imgs/dog_imgs/golden-retriever.png', latestMessage: 'Hey, let\'s ...',
-        },
-      ],
-      selectedChatter: {
-        id: 2, name: 'Lucky', imgUrl: './imgs/dog_imgs/border-collie.png', latestMessage: 'Welcome to my ...',
-      },
-      selectedChatting: [
-        {
-          id: 1, senderId: 1, receiverId: 2, content: 'Hello, Lucky.', time: new Date(2022, 4, 7, 12, 30, 45),
-        },
-        {
-          id: 2, senderId: 2, receiverId: 1, content: 'Hi.', time: new Date(2022, 4, 7, 12, 33, 45),
-        },
-      ],
+      chatters: [],
+      selectedChatter: undefined,
+      selectedChatting: [],
     };
   }
 
-  handleSelectedChatter(chatter) {
-    this.setState({ selectedChatter: chatter });
+  async componentDidMount() {
+    const { contactList, user } = this.props;
+    if (contactList === undefined || contactList.length === 0) {
+      return;
+    }
+    const chatters = contactList.map((contact) => {
+      const imgUrl = `./imgs/dog_imgs/${contact.pet_breed.toLowerCase().split(' ').join('-')}.png`;
+      return {
+        id: contact.pet_id,
+        name: contact.pet_name,
+        imgUrl,
+      };
+    });
+    const selectedChatter = chatters[0];
+    const selectedChatting = await this.loadMessage(user.pet_id, selectedChatter.id);
+    this.setState({
+      chatters,
+      selectedChatter,
+      selectedChatting,
+    });
   }
 
-  handleSendMessage(e) {
+  async loadMessage(usera, userb) {
+    const getMessagesQuery = `mutation getAllMessages($usera: Int!, $userb: Int!){
+      getAllMessages(usera: $usera, userb: $userb) {
+        _id message_id contact_id sender_id receiver_id content sent_at
+      }
+    }`;
+    const res = await graphQLFetch(getMessagesQuery, { usera, userb });
+    if (res) {
+      if (res.getAllMessages) {
+        return res.getAllMessages;
+      }
+      console.error('[Failed]Failed to Load Messages.');
+    }
+    return [];
+  }
+
+  async handleSelectedChatter(chatter) {
+    const { user } = this.props;
+    const messages = await this.loadMessage(user.pet_id, chatter.id);
+    this.setState({ selectedChatter: chatter, selectedChatting: messages });
+  }
+
+  async handleSendMessage(e) {
     e.preventDefault();
     const form = document.forms.sendMessageForm;
-    const newMessage = form.newMessage.value;
+    const content = form.newMessage.value;
+
+    const addMessageQuery = `mutation addMessages($message: MessageAddInputs!){
+      addMessages(message: $message) {
+        _id message_id contact_id sender_id receiver_id content sent_at
+      }
+    }`;
+    const { selectedChatter } = this.state;
+    const { user } = this.props;
+    const newMessage = {
+      contact_id: selectedChatter.contactId,
+      sender_id: user.pet_id,
+      receiver_id: selectedChatter.id,
+      content,
+    };
     console.log(newMessage);
+    const res = await graphQLFetch(addMessageQuery, { message: newMessage });
+    console.log(res);
   }
 
   render() {
-    const { contactList } = this.props;
     const { chatters, selectedChatter, selectedChatting } = this.state;
     const { user } = this.props;
     return (
@@ -59,38 +100,39 @@ class ChatBox extends React.Component {
         <div className="inbox-container">
           <div className="inbox-header">Inbox</div>
           <div className="inbox-list">
-            {
-              chatters.map((chatter) => (
+            {chatters
+              && chatters.map((chatter) => (
                 <InboxListItem
                   key={chatter.id}
                   chatter={chatter}
                   handleClick={this.handleSelectedChatter}
                 />
-              ))
-            }
+              ))}
           </div>
         </div>
-        <div className="chatbox-container">
-          <div className="chatbox-header-container">
-            <img src={selectedChatter.imgUrl} width="32" height="32" alt={selectedChatter.name} />
-            <span className="chatbox-header-name">{selectedChatter.name}</span>
+        { selectedChatter
+          && (
+          <div className="chatbox-container">
+            <div className="chatbox-header-container">
+              <img src={selectedChatter.imgUrl} width="32" height="32" alt={selectedChatter.name} />
+              <span className="chatbox-header-name">{selectedChatter.name}</span>
+            </div>
+            <div className="chatbox-content-container">
+              {selectedChatting
+                && selectedChatting.map((message) => (
+                  <div key={message.contactId} className={user.id === message.sender_id ? 'message-right' : 'message-left'}>
+                    <div className="message-bubble">{message.content}</div>
+                  </div>
+                ))}
+            </div>
+            <div className="chatbox-input-container">
+              <form className="send-message-form" name="sendMessageForm" onSubmit={this.handleSendMessage}>
+                <input className="new-message-input" type="text" name="newMessage" />
+                <button className="send-message-button" type="submit">Send</button>
+              </form>
+            </div>
           </div>
-          <div className="chatbox-content-container">
-            {
-              selectedChatting.map((message) => (
-                <div key={message.id} className={user.id === message.senderId ? 'message-right' : 'message-left'}>
-                  <div className="message-bubble">{message.content}</div>
-                </div>
-              ))
-            }
-          </div>
-          <div className="chatbox-input-container">
-            <form className="send-message-form" name="sendMessageForm" onSubmit={this.handleSendMessage}>
-              <input className="new-message-input" type="text" name="newMessage" />
-              <button className="send-message-button" type="submit">Send</button>
-            </form>
-          </div>
-        </div>
+          )}
       </div>
     );
   }

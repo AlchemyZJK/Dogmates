@@ -1,6 +1,5 @@
 scalar GraphQLDate
 
-
 type User{
   _id:ID!
   pet_id: Int!
@@ -22,9 +21,6 @@ type Output{
   data: User
   status: Status!
 }
-
-
-
 
 type Message{
   _id: ID!
