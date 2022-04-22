@@ -119,8 +119,3 @@ type Mutation {
   getAllMessages(usera: Int!, userb: Int!): [Message!]!
   addMessages(message: MessageAddInputs!): Message!
 }
-
-{
-contact_id,
-...User
-}
