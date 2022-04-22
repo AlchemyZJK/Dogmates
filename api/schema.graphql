@@ -60,6 +60,16 @@ type OutputPosting{
   user_name: String!
 }
 
+type OutputContactList{
+  contact_id: Int!
+  pet_id: Int!
+  pet_name: String!
+  pet_breed: String!
+  pet_mail: String!
+  pet_postcode: String!
+  latitude: String!
+  longitude: String!
+}
 #Toned down pet informarion, used as inputs, without server generated value
 
 input PetLoginInputs {
@@ -105,7 +115,7 @@ type Mutation {
   deletePosting(posting_id: Int!): Boolean!
   getMyPosting(user_id: Int!): [OutputPosting!]
   addContactList(usera: Int!, userb: Int!): Status!
-  getContactList(usera: Int!): [User!]!
+  getContactList(usera: Int!): [OutputContactList!]!
   getAllMessages(usera: Int!, userb: Int!): [Message!]!
   addMessages(message: MessageAddInputs!): Message!
 }
