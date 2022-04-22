@@ -11,10 +11,15 @@ async function get(_, { usera }) {
   for (let j = 0; j < contactlist2.length; j++) {
     contactlist.push(contactlist2[j].user_a);
   }
-  async function getUser(userid) {
-    return await db.collection("pets").findOne({pet_id: userid});
+  async function getUser(usera,userid) {
+    const userb = await db.collection("pets").findOne({pet_id: userid});
+    const contactlist1 = await db.collection("contactlists").find({user_a:userid, user_b:usera}).toArray();
+    const contactlist2 = await db.collection("contactlists").find({user_b:userid, user_a:usera}).toArray();
+    const contactlistid = contactlist1.length > 0? contactlist1[0].contact_id : contactlist2[0].contact_id;
+    userb.contact_id = contactlistid;
+    return userb;
   }
-  const contactlistUser = contactlist.map(getUser);
+  const contactlistUser = contactlist.map( _ => getUser(usera, _));
   return contactlistUser;
 }
 
