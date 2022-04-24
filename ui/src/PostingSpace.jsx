@@ -3,8 +3,23 @@ import React from 'react';
 import PostCard from './components/PostCard.jsx';
 
 export default class PostingSpace extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClickButton = this.handleClickButton.bind(this);
+  }
+
+  handleClickButton(posterId) {
+    const { user, addToContactList } = this.props;
+    if (user === undefined) {
+      alert('You are supposed to Login First.');
+    } else if (user.pet_id === posterId) {
+      alert('This is your own posting :)');
+    }
+    addToContactList(posterId);
+  }
+
   render() {
-    const { postings } = this.props;
+    const { user, postings, addToContactList } = this.props;
     return (
       <>
         <div className="posting-bar">
@@ -18,6 +33,7 @@ export default class PostingSpace extends React.Component {
               key={posting.posting_id}
               posting={posting}
               buttonText="Contact Me"
+              handleClick={this.handleClickButton}
             />
           ))}
         </div>

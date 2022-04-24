@@ -169,7 +169,7 @@ class App extends React.Component {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/neighborhood" element={<Neighborhood user={user} addToContactList={this.addToMyContactList} />} />
-          <Route path="/posting-space" element={<PostingSpace user={user} postings={allPostings} />} />
+          <Route path="/posting-space" element={<PostingSpace user={user} postings={allPostings} addToContactList={this.addToMyContactList} />} />
           <Route path="/dogal-space" element={<DogalSpace user={user} />} />
           <Route path="/my-posting" element={<MyPosting postings={userPostings} deletePosting={this.deletePosting} />} />
           <Route path="/new-posting" element={<NewPosting addPosting={this.addPosting} />} />
