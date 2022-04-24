@@ -475,7 +475,7 @@
   display: flex;
 }
 .chat-container .inbox-container {
-  width: 240px;
+  width: 160px;
   height: 520px;
   margin-right: 16px;
   padding: 12px;
@@ -501,14 +501,11 @@
 }
 .inbox-list-item-container .chat-brief-info {
   margin-left: 4px;
+  display: flex;
+  align-items: center;
 }
 .inbox-list-item-container .chat-brief-info .name {
-  font-size: 14px;
-  margin-bottom: 6px;
-}
-.inbox-list-item-container .chat-brief-info .latest-message {
-  font-size: 12px;
-  color: gray;
+  font-size: 16px;
 }
 .chat-container .chatbox-container {
   width: 560px;
@@ -521,6 +518,8 @@
   height: 40px;
   padding: 6px;
   border-bottom: solid 1px rgb(0, 191, 143);
+  display: flex;
+  align-items: center;
 }
 .chatbox-container .chatbox-header-container span {
   font-size: 20px;
@@ -569,10 +568,10 @@
   background-color: rgba(204, 204, 204, 0.4);
   border: transparent;
   outline: none;
-  font-size: 18px;
+  font-size: 16px;
   margin: 0 12px;
   border-radius: 12px;
-  padding: 6px;
+  padding: 6px 12px;
 }
 .send-message-form button {
   width: 48px;

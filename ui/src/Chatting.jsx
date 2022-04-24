@@ -33,6 +33,7 @@ class ChatBox extends React.Component {
     const chatters = contactList.map((contact) => {
       const imgUrl = `./imgs/dog_imgs/${contact.pet_breed.toLowerCase().split(' ').join('-')}.png`;
       return {
+        contactId: contact.contact_id,
         id: contact.pet_id,
         name: contact.pet_name,
         imgUrl,
@@ -87,9 +88,19 @@ class ChatBox extends React.Component {
       receiver_id: selectedChatter.id,
       content,
     };
-    console.log(newMessage);
     const res = await graphQLFetch(addMessageQuery, { message: newMessage });
-    console.log(res);
+    if (res) {
+      if (res.addMessages) {
+        const { selectedChatting } = this.state;
+        this.setState({ selectedChatting: [...selectedChatting, res.addMessages] });
+      } else {
+        alert('[Failed]Failed to Send new Message.');
+      }
+    } else {
+      alert('[Error]Error Sending new Message.');
+    }
+
+    form.newMessage.value = '';
   }
 
   render() {
@@ -120,7 +131,7 @@ class ChatBox extends React.Component {
             <div className="chatbox-content-container">
               {selectedChatting
                 && selectedChatting.map((message) => (
-                  <div key={message.contactId} className={user.id === message.sender_id ? 'message-right' : 'message-left'}>
+                  <div key={message.message_id} className={user.pet_id === message.sender_id ? 'message-right' : 'message-left'}>
                     <div className="message-bubble">{message.content}</div>
                   </div>
                 ))}
@@ -142,10 +153,9 @@ function InboxListItem(props) {
   const { chatter, handleClick } = props;
   return (
     <div className="inbox-list-item-container" onClick={() => handleClick(chatter)}>
-      <img src={chatter.imgUrl} width="48" height="48" alt={chatter.name} />
+      <img src={chatter.imgUrl} width="24" height="24" alt={chatter.name} />
       <div className="chat-brief-info">
         <div className="name">{chatter.name}</div>
-        <div className="latest-message">{chatter.latestMessage}</div>
       </div>
     </div>
   );

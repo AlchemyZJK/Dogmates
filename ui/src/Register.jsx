@@ -32,7 +32,6 @@ export default class Register extends React.Component {
       pet_password: password,
       pet_postcode: postcode,
     };
-    // console.log(newUser);
 
     const registerQuery = `mutation petRegister($register: PetRegisterInputs!) {
       petRegister(register: $register) {
@@ -42,11 +41,18 @@ export default class Register extends React.Component {
     }`;
 
     const res = await graphQLFetch(registerQuery, { register: newUser });
-    // console.log(res);
 
-    setUser(res.petRegister.data);
-    // alert('[Success]Register Success');
-    this.setState({ registerSuccess: true });
+    if (res) {
+      if (res.petRegister.data) {
+        setUser(res.petRegister.data);
+        this.setState({ registerSuccess: true });
+        alert('[Success]Register a new Account Successful.');
+      } else {
+        alert('[Failed]Failed to Register a new Account.');
+      }
+    } else {
+      alert('[Error]Error when Registering a new Account.');
+    }
   }
 
   render() {

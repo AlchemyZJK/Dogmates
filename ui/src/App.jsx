@@ -120,7 +120,7 @@ class App extends React.Component {
     const { user } = this.state;
     const getContactListQuery = `mutation getContactList($usera: Int!){
       getContactList(usera: $usera) {
-        _id pet_id pet_name pet_breed
+        contact_id pet_id pet_name pet_breed
       }
     }`;
     const contactList = await graphQLFetch(getContactListQuery, { usera: user.pet_id });
