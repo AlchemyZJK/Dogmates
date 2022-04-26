@@ -1,3 +1,3 @@
 window.ENV = {
-  UI_API_ENDPOINT: "http://13.251.110.155:3000/graphql"
+  UI_API_ENDPOINT: "http://localhost:3000/graphql"
 }
