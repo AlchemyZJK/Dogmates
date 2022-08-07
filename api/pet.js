@@ -65,7 +65,7 @@ async function register(_, { register }) {
 	const email = register.pet_mail;
 	const oldpet = await db.collection("pets").findOne({pet_mail: email});
 	const geolocation = await getLatLngByZipcode(register.pet_postcode);
-	const LatitudeOrError = geolocation[0]
+	const LatitudeOrError = geolocation[0];
 	const Longitude = geolocation[1];
 	if (oldpet != null) {
 		errors.push("The user already exists")
@@ -73,7 +73,7 @@ async function register(_, { register }) {
 		Status.message = errors[0];
 	}
 	else {
-		if (typeof(LatitudeOrError) == "string"){
+		if (typeof(LatitudeOrError) === "string"){
 			Status.valid = false;
 			Status.message = "This location does not exist!";
 		} 
